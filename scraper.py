@@ -41,6 +41,34 @@ for review in review_text:
             labels[label] = 1
         scores = scores + out[0]['score']
         num += 1
+    else:
+        start = 0
+        mean_scores = 0
+        mean_labels = {}
+
+        mod_token = int(len(tokenized_sentence) / 450)
+        mod = int(len(review) / mod_token)
+
+        for i in range(mod):
+            out = sentiment_task(review.text[start:mod])
+
+            mean_scores = (mean_scores * i + out[0]['score']) / (i+1)
+
+            label = str(out[0]['label'])
+            if label in mean_labels:
+                mean_labels[label] = mean_labels[label] + 1
+            else:
+                mean_labels[label] = 1
+                
+        final_label = max(mean_labels, key=mean_labels.get)
+        label = final_label
+        if label in labels:
+            labels[label] = labels[label] + 1
+        else:
+            labels[label] = 1
+        scores = mean_scores
+        num += 1
+
     
 print("\n\n\n")
 print("Avg score: " + str(scores/num))
