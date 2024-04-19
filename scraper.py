@@ -13,6 +13,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException
 import geckodriver_autoinstaller
 
 from sklearn.metrics import balanced_accuracy_score
@@ -82,13 +83,15 @@ for title in titles:
         wait.until(EC.presence_of_element_located((By.XPATH, "//*[contains(text(), 'Show more reviews')]")))
         more_reviews_button.send_keys(Keys.ENTER)
     wait.until(EC.presence_of_element_located((By.XPATH, "//*[contains(text(), 'Show more reviews')]")))
+    
 
     # Wait until review text loads and then find all reviews on page
     wait.until(EC.presence_of_element_located((By.CLASS_NAME, "Formatted")))
+    wait.until(EC.presence_of_element_located((By.CLASS_NAME, "RatingStars__small")))
+    time.sleep(2)
     review_text = driver.find_elements(By.CLASS_NAME, "Formatted") #selenium
 
     # Wait until review starts loads and then grab all reviews
-    wait.until(EC.presence_of_element_located((By.CLASS_NAME, "RatingStars__small")))
     #review_rating = driver.find_elements(By.CLASS_NAME, "RatingStars__small")
 
     # Remove reviews without a star rating
