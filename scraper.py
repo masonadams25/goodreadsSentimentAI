@@ -42,7 +42,7 @@ except:
     pass
 
 # Enter book code and then use Selennium to get page source
-book_file = open('books.txt', 'r')
+book_file = open('books_text.txt', 'r')
 titles_temp = book_file.readlines()
  
 titles = []

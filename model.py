@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
+from transformers import AutoModelForSequenceClassification
 
 from sklearn.metrics import balanced_accuracy_score
 from sklearn.metrics import classification_report
@@ -13,12 +14,13 @@ from transformers import pipeline
 from transformers import AutoTokenizer
 
 import json
-
+ 
 # Insantiaze the sentiment model from hugging face
 model_path = "cardiffnlp/twitter-roberta-base-sentiment-latest"
 #sentiment_task = pipeline("sentiment-analysis", model=model_path, tokenizer=model_path)
 # Use a pipeline as a high-level helper
-sentiment_task = pipeline("text-classification", model="fpianz/roberta-english-book-reviews-sentiment", tokenizer=model_path)
+#sentiment_task = pipeline("text-classification", model="fpianz/roberta-english-book-reviews-sentiment", tokenizer=model_path)
+sentiment_task = pipeline("text-classification", model="goodreads_model", tokenizer=model_path)
 
 review_text = []
 review_rating = []
@@ -110,7 +112,7 @@ for review in review_text:
 target_names = ['negative', 'neutral', 'positive']
 
 print("Number of reviews: " + str(num_reviews))
-print("Balanced acc: " + str(balanced_accuracy_score(review_rating, pred_rating))) 
+print("Acc: " + str(balanced_accuracy_score(review_rating, pred_rating))) 
 print(classification_report(review_rating, pred_rating, target_names=target_names))
 print("Pred: " + str(labels))
 print("True: " +str(true_labels))
