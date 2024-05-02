@@ -1,4 +1,3 @@
-from transformers import pipeline
 from transformers import AutoTokenizer
 from transformers import TrainingArguments
 from transformers import TrainingArguments, Trainer

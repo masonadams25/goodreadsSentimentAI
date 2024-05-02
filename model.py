@@ -1,12 +1,3 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException
-from transformers import AutoModelForSequenceClassification
-
 from sklearn.metrics import balanced_accuracy_score
 from sklearn.metrics import classification_report
 
@@ -73,7 +64,7 @@ for review in review_text:
         scores = scores + out[0]['score']
 
         scores = scores + out[0]['score']
-        print('label: ' + label + " score: " + str(out[0]['score']))
+        print('label: ' + label + " score: " + str(out[0]['score']) + "  " + str(count) + "/" + str(num_reviews))
 
     # If it is too long, split it up and taken the avg of each segment 
     else:
@@ -103,7 +94,7 @@ for review in review_text:
         else:
             labels[label] = 1
         scores = scores + mean_scores
-        print('label: ' + str(final_label) + " score: " + str(mean_scores))
+        print('label: ' + str(final_label) + " score: " + str(mean_scores) + "  " + str(count) + "/" + str(num_reviews))
 
         #if(label == "N/A"):
         #    review_rating.insert(count, "N/A")

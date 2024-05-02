@@ -1,30 +1,19 @@
-import requests
-from bs4 import BeautifulSoup
 import re
-import torch
 import os.path
 import json
 import time
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import StaleElementReferenceException
 import geckodriver_autoinstaller
-
-from sklearn.metrics import balanced_accuracy_score
-from sklearn.metrics import classification_report
-
-from transformers import pipeline
-from transformers import AutoTokenizer
 
 ##################
 ### Global Var ###
-num_pages_of_reviews = 2 # 30 reviews per page
+num_pages_of_reviews = 3 # 30 reviews per page
 ##################
 
 geckodriver_autoinstaller.install()
@@ -42,7 +31,7 @@ except:
     pass
 
 # Enter book code and then use Selennium to get page source
-book_file = open('books_text.txt', 'r')
+book_file = open('books.txt', 'r')
 titles_temp = book_file.readlines()
  
 titles = []
@@ -141,5 +130,7 @@ for title in titles:
 with open('review_text.json', 'a') as filehandle:
     json_object = json.dumps(data)
     filehandle.write(json_object)
+
+print("Reviews scraped: " + str(len(data)))
 
 driver.quit()
